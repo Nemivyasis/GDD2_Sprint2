@@ -25,7 +25,7 @@ public class Laser : MonoBehaviour {
 	 * collider.
 	 */
 	private void Awake() {
-		beam = Transform.FindObjectOfType<GameObject>(); 
+		beam = this.gameObject.transform.GetChild(0).gameObject;
 		beamColl = beam.GetComponent<BoxCollider>();
 		// Set center of laser beam's collider.
 		if (dir.Equals(Direction.Up)) {
@@ -46,6 +46,7 @@ public class Laser : MonoBehaviour {
 	}
 
 	void Update () {
-		
+		beam.transform.localScale = new Vector3(Time.time, BEAM_SCALE, BEAM_SCALE);
+		beam.transform.Translate(Vector3.right * (Time.deltaTime / 2) );
 	}
 }
