@@ -3,42 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Mirror : MonoBehaviour {
-
-    //made public so it can be seen in the editor
     //position of the mirror
-    public Vector3 pos;
-
+    Vector3 pos;
     //rotation of the mirror
-    public Vector3 theta;
+    Vector3 eulerTheta;
+    float theta;
 
 	// Use this for initialization
-	/*void Start () {
-        pos.x = this.transform.position.x;
-        pos.y = this.transform.position.y;
-        pos.z = 0;
-	}*/
+	void Start () {
+        pos = new Vector3(0.0f, 0.0f, 0.0f);
+        eulerTheta = new Vector3(0.0f, 0.0f, 0.0f);
+        theta = 0;
+	}
 
-    //for retrieving the position
-    public Vector3 GetPos()
+    private void Update()
     {
-        return pos;
-    }
-
-    //for retrieving the rotation
-    public Vector3 GetRotation()
-    {
-        return theta;
+        Rotate();
     }
 
     //for placing the mirror
-    public void Placer()
+    void OnMouseDrag()
     {
         //get the mouse pos
-        Vector3 mousePos = new Vector3(Input.mousePosition.x, 0, Input.mousePosition.z);
-        print(mousePos);
+        Vector3 mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
 
         //translate the mouse pos to the world
         pos = Camera.main.ScreenToWorldPoint(mousePos);
+
+        //set the pos' z back so it can be seen by the camera
+        pos = new Vector3(pos.x, pos.y, 0);
 
         //move the mirror
         this.transform.position = pos;
@@ -50,8 +43,44 @@ public class Mirror : MonoBehaviour {
     {
         if (Input.GetKeyDown("r"))
         {
-            //put rotation code here
+            //increment rotation by 45 degrees
+            theta += 45.0f;
+
+            //if theta exceeds 360 degrees, set the theta back to 0
+            if(theta >= 360.0f)
+            {
+                theta = 0;
+            }
+
+            //set the vector3 to the theta 
+            eulerTheta = new Vector3(0.0f, 0.0f, theta);
+
+            //convert to magical quaternion so no gimbal lock
+            Quaternion rotation = Quaternion.Euler(eulerTheta);
+
+            //transform the object
+            transform.rotation = rotation;
         }
     }
-		
+
+    //set the position of the mirror
+    public void SetPos(Vector3 inputPos)
+    {
+        //make it so whoever uses SetPos cannot change the z
+        Vector3 newPos = new Vector3(inputPos.x, inputPos.y, 0.0f);
+        transform.position = newPos;
+
+    }
+
+    //for retrieving the position
+    public Vector3 GetPos()
+    {
+        return pos;
+    }
+
+    //for retrieving the rotation
+    public Vector3 GetRotation()
+    {
+        return eulerTheta;
+    }
 }
