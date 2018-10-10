@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Wall
   - Prism
+  - Beam
   layers:
   - Default
   - TransparentFX
