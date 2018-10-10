@@ -46,11 +46,11 @@ public class Laser : MonoBehaviour {
 		}
 
 		if (dir.Equals(Direction.Up)) {
-			beam.transform.localScale = new Vector3(BEAM_SCALE, BEAM_SCALE, laserTimer);
-			beam.transform.Translate(Vector3.forward * (LASER_SPD / 2 ));
+			beam.transform.localScale = new Vector3(BEAM_SCALE, laserTimer, BEAM_SCALE);
+			beam.transform.Translate(Vector3.up * (LASER_SPD / 2 ));
 		} else if (dir.Equals(Direction.Down)) {
-			beam.transform.localScale = new Vector3(BEAM_SCALE, BEAM_SCALE, -laserTimer);
-			beam.transform.Translate(Vector3.forward * (-LASER_SPD / 2) );
+			beam.transform.localScale = new Vector3(BEAM_SCALE, -laserTimer, BEAM_SCALE);
+			beam.transform.Translate(Vector3.up * (-LASER_SPD / 2) );
 		} else if (dir.Equals(Direction.Left)) {
 			beam.transform.localScale = new Vector3(-laserTimer, BEAM_SCALE, BEAM_SCALE);
 			beam.transform.Translate(Vector3.right * (-LASER_SPD / 2) );
