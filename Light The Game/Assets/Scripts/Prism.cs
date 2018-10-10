@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Prism : MonoBehaviour {
 
+    public bool activated;
+
 	// Use this for initialization
 	void Start () {
 		

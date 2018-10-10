@@ -2,57 +2,48 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GridManager : MonoBehaviour {
-    public int x;
-    public int y;
-    int[,] grid;
+    GameObject[] prisms;
+    bool victory = false;
+    public Text victoryText;
 
-    GameObject[] lasers;
-    List<Vector3> laserColors;
-    List<List<Vector2>> laserPaths;
 	// Use this for initialization
 	void Start () {
-        grid = new int[x, y]; //current management for grid population and stuff
-
         //find lasers here
-        lasers = GameObject.FindGameObjectsWithTag("Laser");
+        prisms = GameObject.FindGameObjectsWithTag("Prism");
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        CalculatePaths();
-        ClearLasers();
-        DrawPaths();
+        if (!victory)
+        {
+            //set an initial boolean
+            bool willWin = true;
+
+            for (int i = 0; i < prisms.Length; i++)
+            {
+                //if any prism is not active, the game is not won, yet
+                if (!prisms[i].GetComponent<Prism>().activated)
+                {
+                    willWin = false;
+                    break;
+                }
+            }
+
+            if (willWin)
+            {
+                victory = true;
+                victoryText.gameObject.SetActive(true);
+            }
+        }
+
+        //reset
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            victory = false;
+            victoryText.gameObject.SetActive(false);
+        }
 	}
-
-    private void DrawPaths()
-    {
-        throw new NotImplementedException();
-    }
-
-    //hopefully unnecessary but I feel like we may need it
-    private void ClearLasers()
-    {
-        throw new NotImplementedException();
-    }
-
-    private void CalculatePaths()
-    {
-        
-    }
-
-    int GetObjectAt(int objX, int objY)
-    {
-        if(objX <= 0 || objX > x)
-        {
-            return -1;
-        }
-        if (objY <= 0 || objY > y)
-        {
-            return -1;
-        }
-
-        return grid[objX, objY];
-    }
 }
