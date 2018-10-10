@@ -6,26 +6,17 @@ public class Mirror : MonoBehaviour {
 
     //made public so it can be seen in the editor
     //position of the mirror
-    public int x;
-    public int z;
     public Vector3 pos;
 
     //rotation of the mirror
-    public float theta;
+    public Vector3 theta;
 
 	// Use this for initialization
-	void Start () {
-        x = 0;
-        z = 0;
-        pos.x = x;
-        pos.z = z;
-        theta = 0;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+	/*void Start () {
+        pos.x = this.transform.position.x;
+        pos.y = this.transform.position.y;
+        pos.z = 0;
+	}*/
 
     //for retrieving the position
     public Vector3 GetPos()
@@ -34,7 +25,7 @@ public class Mirror : MonoBehaviour {
     }
 
     //for retrieving the rotation
-    public float GetRotation()
+    public Vector3 GetRotation()
     {
         return theta;
     }
@@ -42,7 +33,15 @@ public class Mirror : MonoBehaviour {
     //for placing the mirror
     public void Placer()
     {
-        //put mouse drag code here
+        //get the mouse pos
+        Vector3 mousePos = new Vector3(Input.mousePosition.x, 0, Input.mousePosition.z);
+        print(mousePos);
+
+        //translate the mouse pos to the world
+        pos = Camera.main.ScreenToWorldPoint(mousePos);
+
+        //move the mirror
+        this.transform.position = pos;
     }
 
     //for rotating the mirror
