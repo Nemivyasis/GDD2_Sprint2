@@ -14,18 +14,22 @@ public class Laser : MonoBehaviour {
 	public LaserColor color; 
 	public Direction dir;
 
-	private GameObject beam; // The gameObject child which represents the laser beam.
+	private Beam beam; // The child which represents the laser beam.
 	private BoxCollider beamColl; 
 	private Vector3 transDir; // The direction at which the laser beam expands.
 
+	private float laserTimer = 0f; // The laser beam scales by time. Used instead of Time.time so we can reset it as we wish.
+	private bool isLaserOn = false; // By default, the lasers are off until the player says to shoot them (via input).
+
 	private const float BEAM_SCALE = 1/4f; // The beam's scale will always be 1/4th of the laser.
+	private const float LASER_SPD = 1/20f; // The speed at which the laser shoots, as an alternative to Time.deltaTime.
 
 	/** Grab a reference to the child object, the laser beam. We can then access the 
 	 * beam's BoxCollider. Then, based on this laser's direction, set the center of its 
 	 * collider and its color.
 	 */
 	private void Awake() {
-		beam = this.gameObject.transform.GetChild(0).gameObject;
+		beam = this.gameObject.transform.GetChild(0).GetComponent<Beam>();
 		beamColl = beam.GetComponent<BoxCollider>();
 		ChooseColor();
 	}
@@ -33,27 +37,35 @@ public class Laser : MonoBehaviour {
 	/** Based on the four possible directions, choose a direction for this laser.
 	 * Every frame, expand the laser beam based on time and translate it to give the illusion that it
 	 * is properly shooting out of the cube.
+	 * 
+	 * If the lasers are off or the beam's made contact with something, then skip expanding the lasers and updating time entirely.
 	 */
 	private void ChooseDirection() {
-		if (dir.Equals(Direction.Up)) {
-			beam.transform.localScale = new Vector3(BEAM_SCALE, BEAM_SCALE, Time.time);
-			beam.transform.Translate(Vector3.forward * (Time.deltaTime / 2 ));
-		} else if (dir.Equals(Direction.Down)) {
-			beam.transform.localScale = new Vector3(BEAM_SCALE, BEAM_SCALE, -Time.time);
-			beam.transform.Translate(Vector3.forward * (-Time.deltaTime / 2) );
-		} else if (dir.Equals(Direction.Left)) {
-			beam.transform.localScale = new Vector3(-Time.time, BEAM_SCALE, BEAM_SCALE);
-			beam.transform.Translate(Vector3.right * (-Time.deltaTime / 2) );
-		} else if (dir.Equals(Direction.Right)) {
-			beam.transform.localScale = new Vector3(Time.time, BEAM_SCALE, BEAM_SCALE);
-			beam.transform.Translate(Vector3.right * (Time.deltaTime / 2) );
-		} else { // No direction.
-			beamColl.center = new Vector3(0, 0, 0);
+		if (!isLaserOn || beam.GetMadeContact()) { // If the lasers are off or the beam has made contact with something...
+			return; // Don't do anything and skip the rest of this function.
 		}
+
+		if (dir.Equals(Direction.Up)) {
+			beam.transform.localScale = new Vector3(BEAM_SCALE, BEAM_SCALE, laserTimer);
+			beam.transform.Translate(Vector3.forward * (LASER_SPD / 2 ));
+		} else if (dir.Equals(Direction.Down)) {
+			beam.transform.localScale = new Vector3(BEAM_SCALE, BEAM_SCALE, -laserTimer);
+			beam.transform.Translate(Vector3.forward * (-LASER_SPD / 2) );
+		} else if (dir.Equals(Direction.Left)) {
+			beam.transform.localScale = new Vector3(-laserTimer, BEAM_SCALE, BEAM_SCALE);
+			beam.transform.Translate(Vector3.right * (-LASER_SPD / 2) );
+		} else if (dir.Equals(Direction.Right)) {
+			beam.transform.localScale = new Vector3(laserTimer, BEAM_SCALE, BEAM_SCALE);
+			beam.transform.Translate(Vector3.right * (LASER_SPD / 2) );
+		} else { // No direction.
+			beamColl.center = Vector3.zero;
+		}
+		laserTimer += LASER_SPD;
 	}
 
 	/** Based on the seven possible colors, choose a color for this laser.
 	 * Set the color of the material of the laser beam.
+	 * Also set the beam's color internally.
 	 */
 	private void ChooseColor() {
 		if (color == LaserColor.Red) {
@@ -71,16 +83,31 @@ public class Laser : MonoBehaviour {
 		} else if (color == LaserColor.White) {
 			beam.GetComponent<Renderer>().material.color = Color.white;
 		}
-			
+		beam.SetColor(color);
 
 	}
 
-	void Start () {
-		
+	/** Handles shooting the laser 'S' and restarting the puzzle 'R'.
+	 * 'R': Upon restarting the puzzle, reset the timer and the isLaserOn boolean, and reset the
+	 * beam's position and scale.
+	 * 'S': When shooting the laser, simply activate the isLaserOn boolean to true.
+	 */
+	private void ProcessInput() {
+		if (Input.GetKeyDown(KeyCode.R)) { // 'R' = *R*estart the puzzle
+			laserTimer = 0f;
+			isLaserOn = false;
+			beam.transform.localScale = new Vector3(BEAM_SCALE, BEAM_SCALE, BEAM_SCALE);
+			beam.transform.localPosition = Vector3.zero;
+			beam.SetMadeContact(false);
+		} else if (Input.GetKeyDown(KeyCode.S)) { // 'S' = *S*hoot the laser
+			isLaserOn = true;
+		}
 	}
 
 	// Every frame, shoot the laser outwards.
 	private void Update () {
 		ChooseDirection();
+		ProcessInput();
 	}
 }
+
