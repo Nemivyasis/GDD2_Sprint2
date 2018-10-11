@@ -29,7 +29,7 @@ public class GridManager : MonoBehaviour {
                 {
                     willWin = false;
                     break;
-                }
+				}
             }
 
             if (willWin)

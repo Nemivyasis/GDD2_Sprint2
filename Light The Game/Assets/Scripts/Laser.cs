@@ -74,18 +74,25 @@ public class Laser : MonoBehaviour {
 	private void ChooseColor() {
 		if (color == LaserColor.Red) {
 			beam.GetComponent<Renderer>().material.color = Color.red;
+			GetComponent<Renderer>().material.color = Color.red;
 		} else if (color == LaserColor.Blue) {
 			beam.GetComponent<Renderer>().material.color = Color.blue;
+			GetComponent<Renderer>().material.color = Color.blue;
 		} else if (color == LaserColor.Yellow) {
 			beam.GetComponent<Renderer>().material.color = Color.yellow;
+			GetComponent<Renderer>().material.color = Color.yellow;
 		} else if (color == LaserColor.Purple) {
 			beam.GetComponent<Renderer>().material.color = new Color(1.0f, 0.0f, 1.0f);
+			GetComponent<Renderer>().material.color = new Color(1.0f, 0.0f, 1.0f);
 		} else if (color == LaserColor.Green) {
 			beam.GetComponent<Renderer>().material.color = Color.green;
+			GetComponent<Renderer>().material.color = Color.green;
 		} else if (color == LaserColor.Orange) {
 			beam.GetComponent<Renderer>().material.color = new Color(1.0f, 0.5f, 0.0f);
+			GetComponent<Renderer>().material.color = new Color(1.0f, 0.5f, 0.0f);
 		} else if (color == LaserColor.White) {
 			beam.GetComponent<Renderer>().material.color = Color.white;
+			GetComponent<Renderer>().material.color = Color.white;
 		}
 		beam.SetColor(color);
 
