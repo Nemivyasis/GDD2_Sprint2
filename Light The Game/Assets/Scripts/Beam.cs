@@ -117,7 +117,7 @@ public class Beam : MonoBehaviour {
 
     private void Reflect(GameObject mirror)
     {
-        int mirrorDir = mirror.GetComponentInParent<Mirror>().theta;
+        int mirrorDir = mirror.GetComponentInParent<Mirror>().GetTheta();
         Laser parentScript = GetComponentInParent<Laser>();
 
         Vector3 contactPos;

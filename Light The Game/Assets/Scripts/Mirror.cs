@@ -5,29 +5,29 @@ using UnityEngine;
 public class Mirror : MonoBehaviour {
     //position of the mirror
     Vector3 pos;
-    //rotation of the mirror
-    Vector3 eulerTheta;
-    public int theta;
+
+    //for getting the angle of rotation
+    int theta;
+
+    //speed of rotation
+    float speed;
 
 	// Use this for initialization
 	void Start () {
         pos = new Vector3(0.0f, 0.0f, 0.0f);
-        eulerTheta = new Vector3(0.0f, 0.0f, 45.0f);
-        Quaternion rotation = Quaternion.Euler(eulerTheta);
-        transform.rotation = rotation;
-        theta = 45;
+        theta = 0;
+        speed = 20.0f;
 	}
 
-    private void Update()
+    //when mouse hovers over mirror, that mirror can rotate
+    private void OnMouseOver()
     {
-        
+        Rotate();
     }
 
     //for placing the mirror
     void OnMouseDrag()
     {
-        Rotate();
-
         //get the mouse pos
         Vector3 mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
 
@@ -45,25 +45,14 @@ public class Mirror : MonoBehaviour {
     //locked to 90 degrees
     public void Rotate()
     {
-        if (Input.GetKeyDown("r"))
+        //rotate right
+        if (Input.GetKey(KeyCode.RightArrow))
         {
-            //increment rotation by 45 degrees
-            theta += 90;
-
-            //if theta exceeds 360 degrees, set the theta back to 0
-            if(theta >= 360)
-            {
-                theta = theta - 360;
-            }
-
-            //set the vector3 to the theta 
-            eulerTheta = new Vector3(0.0f, 0.0f, theta);
-
-            //convert to magical quaternion so no gimbal lock
-            Quaternion rotation = Quaternion.Euler(eulerTheta);
-
-            //transform the object
-            transform.rotation = rotation;
+            transform.Rotate(new Vector3(0, 0, 1) * speed * Time.deltaTime, Space.World);
+        }
+        else if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            transform.Rotate(new Vector3(0, 0, -1) * speed * Time.deltaTime, Space.World);
         }
     }
 
@@ -73,7 +62,6 @@ public class Mirror : MonoBehaviour {
         //make it so whoever uses SetPos cannot change the z
         Vector3 newPos = new Vector3(inputPos.x, inputPos.y, 0.0f);
         transform.position = newPos;
-
     }
 
     //for retrieving the position
@@ -82,9 +70,11 @@ public class Mirror : MonoBehaviour {
         return pos;
     }
 
-    //for retrieving the rotation
-    public Vector3 GetRotation()
+
+    //returns the angle of rotation
+    public int GetTheta()
     {
-        return eulerTheta;
+        theta = (int) transform.localRotation.z;
+        return theta;
     }
 }
