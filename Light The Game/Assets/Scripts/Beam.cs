@@ -10,15 +10,9 @@ using UnityEngine;
 public class Beam : MonoBehaviour {
 
 	private Laser.LaserColor color;
-	public bool hasMadeContact = false; // Whether or not this beam has hit something.
 
     public List<GameObject> ignoreObjects;
     public GameObject fakeLaser;
-
-    bool delayedCollision = false;
-    bool mirrorCollision = false;
-    float mirrorTimer = 0;
-    public float mirrorStopTime = 0.05f;
 
     public Vector3 direction;
 
@@ -34,16 +28,21 @@ public class Beam : MonoBehaviour {
 		GetComponent<Rigidbody>().isKinematic = true;
 	}
 
+    //finds where the laser will end
     public void CalcEnd()
     {
         RaycastHit endObj;
 
+        //finds the point at the far back of the laser
         Vector3 toRayCastPoint = new Vector3(-direction.x * .5f * transform.localScale.x, -direction.y * .5f * transform.localScale.x, 0);
 
+        //raycast
         bool hitObj = Physics.Raycast(transform.position + toRayCastPoint + direction * .01f, direction, out endObj);
 
+        //what will it hit
         if (hitObj)
         {
+            //if it is not hitting a mirror, make sure it does not have any lasers coming from it
             if(!endObj.transform.gameObject.tag.Equals("Mirror")){
                 DestroyNextLasers();
             }
@@ -67,6 +66,7 @@ public class Beam : MonoBehaviour {
             }
         }
 
+        //if it does have a laser after it, calculate that laser
         if(nextLaser != null)
         {
             nextLaserScript.CalcLaser();
@@ -75,17 +75,17 @@ public class Beam : MonoBehaviour {
 
     private void DrawLaser(RaycastHit endObj, Vector3 rayCastPos)
     {
+        //x size and y size of the line
         float x = endObj.point.x - rayCastPos.x;
         float y = endObj.point.y - rayCastPos.y;
+
+        //calculate the length of the line
         transform.localScale = new Vector3(Mathf.Abs(Vector3.Magnitude(new Vector3(x, y, 0))), transform.localScale.y, transform.localScale.z);
 
+        //reset position
         transform.position = transform.parent.position;
 
-        if (gameObject.tag != "Beam")
-        {
-            Debug.DrawLine(transform.position, endObj.point);
-        }
-
+        //calculate angle, if going up and down, make it 90 or 270 depending (avoids divide by 0 errors)
         if (direction.x == 0)
         {
             if(y > 0)
@@ -97,23 +97,23 @@ public class Beam : MonoBehaviour {
                 transform.rotation = Quaternion.Euler(0, 0, 270);
             }
         }
-        else if (direction.x < 0)
+        else if (direction.x < 0) // if x is less than 0 (its going left) add 180 to the calculated angle
         {
-            Debug.Log(" < 0");
             transform.rotation = Quaternion.Euler(0, 0, Mathf.Rad2Deg * (float) Math.Atan(direction.y / direction.x) + 180);
         }
         else
         {
-            Debug.Log( Math.Tanh(direction.y / direction.x));
             transform.rotation = Quaternion.Euler(0, 0, Mathf.Rad2Deg * (float) Math.Atan(direction.y / direction.x));
         }
 
         
+        //move the line so the position is in the middle of its own path
         transform.Translate(new Vector3(Vector3.Magnitude(new Vector3(x, y, 0)) / 2, 0, 0));
     }
 
     private void Reflect(RaycastHit endObj)
     {
+        //get the mirror script
         Mirror mirror = endObj.transform.gameObject.GetComponent<Mirror>();
 
         //check if it hits the right part
@@ -121,6 +121,7 @@ public class Beam : MonoBehaviour {
         Vector3 topMirror = mirror.GetGlobalTopCoord();
         Vector3 botMirror = mirror.GetGlobalBotCoord();
 
+        //if it misses the glass part, destroy any following lasers (if they exist) and leave
         if((endObj.point.x > topMirror.x && endObj.point.x > botMirror.x) || (endObj.point.x < topMirror.x && endObj.point.x < botMirror.x))
         {
             DestroyNextLasers();
@@ -137,18 +138,21 @@ public class Beam : MonoBehaviour {
         if(nextLaser == null)
         {
             nextLaser = Instantiate(fakeLaser);
+
+            //set some values
             nextLaserScript = nextLaser.GetComponent<Laser>();
             nextLaserScript.color = transform.parent.gameObject.GetComponent<Laser>().color;
             nextLaser.GetComponentInChildren<Beam>().fakeLaser = fakeLaser;
 
             nextLaserScript.OnAwake();
         }
-        //update nextlaser attributes based on angle and such
+        //update nextlaser position
         nextLaser.transform.position = endObj.point;
         
         //the direction
         float lightAngle = transform.eulerAngles.z;
 
+        //make sure all the angles are within 360 and 0
         while(lightAngle >= 360)
         {
             lightAngle -= 360;
@@ -167,20 +171,26 @@ public class Beam : MonoBehaviour {
         {
             mirrorAngle += 360;
         }
+
+        //find the angle of incidence 
         float incidentAngle = mirrorAngle - (180 + lightAngle);
 
+        //calculate the new angle by adding the angle of reflection to the mirror's rotation
         float newAngle = mirrorAngle + incidentAngle;
 
+        //calculate the direction based on newAngle
         nextLaser.GetComponentInChildren<Beam>().direction = new Vector3(Mathf.Cos(Mathf.Deg2Rad * newAngle), Mathf.Sin(Mathf.Deg2Rad * newAngle), 0);
     }
 
     private void DestroyNextLasers()
     {
+        //do nothing if there is no next laser
         if(nextLaser != null)
         {
             List<GameObject> toDestroy = new List<GameObject>();
             toDestroy.Add(nextLaser);
 
+            //destroy any lasers following this one
             while (toDestroy[toDestroy.Count - 1].GetComponentInChildren<Beam>().nextLaser != null)
             {
                 toDestroy.Add(toDestroy[toDestroy.Count - 1].GetComponentInChildren<Beam>().nextLaser);
@@ -195,18 +205,6 @@ public class Beam : MonoBehaviour {
         }
     }
 
-
-    // Getter for if the beam has made contact with something.
-    public bool GetMadeContact() {
-		return hasMadeContact;
-	}
-
-	// Setter for if the beam has made contact with something.
-	// param[newVal] - bool that'll be the new value of hasMadeContact.
-	public void SetMadeContact(bool newVal) {
-		hasMadeContact = newVal;
-	}
-
 	// Setter for the beam's color.
 	// param[newVal] - Laser.LaserColor that'll be the new value of color.
 	public void SetColor(Laser.LaserColor newVal) {
@@ -218,69 +216,4 @@ public class Beam : MonoBehaviour {
 	public Laser.LaserColor SetColor() {
 		return color;
 	}
-
-	/** Checks for collisions against walls, prisms, and mirrors.
-	 * In the current implementation, all three of these behave the same way: they stop the laser.
-	 */
-	private void OnTriggerEnter(Collider coll) {
-        if (!GetComponentInParent<Laser>().isLaserOn)
-        {
-            return;
-        }
-
-        for (int i = 0; i < ignoreObjects.Count; i++)
-        {
-            if(coll.gameObject == ignoreObjects[i])
-            {
-                return;
-            }
-        }
-
-		if (coll.gameObject.tag.Equals("Wall")) {
-			hasMadeContact = true;
-		} else if (coll.tag.Equals("Prism")) {
-			hasMadeContact = true;
-		} else if (coll.tag.Equals("Mirror")) {
-			mirrorCollision = true;
-            delayedCollision = true;
-            mirrorToReflectOn = coll.gameObject;
-		} else if (coll.tag.Equals("MirrorBody")) {
-            delayedCollision = true;
-        }
-        else if (coll.tag.Equals("LaserBody"))
-        {
-            hasMadeContact = true;
-        }
-    }
-
-
-    private void GenerateNewLaser(Vector3 startPos, Laser.LaserColor color, Laser.Direction direction, GameObject mirror)
-    {
-        GameObject newLaser = Instantiate(fakeLaser);
-
-        //set position
-        newLaser.transform.position = startPos;
-
-        //set color and direction
-        Laser laserScript = newLaser.GetComponent<Laser>();
-        laserScript.color = color;
-        laserScript.dir = direction;
-
-        //set the ignore object of the beam
-        newLaser.GetComponentInChildren<Beam>().ignoreObjects.Add(mirror);
-        newLaser.GetComponentInChildren<Beam>().ignoreObjects.Add(mirror.transform.parent.gameObject);
-        newLaser.GetComponentInChildren<Beam>().fakeLaser = fakeLaser;
-
-        newLaser.transform.GetChild(0).position = newLaser.transform.position;
-
-        laserScript.OnAwake();
-
-        newLaser.tag = "FakeLaser";
-
-
-        //activate the laser
-        laserScript.ActivateLaser(true);
-
-
-    }
 }

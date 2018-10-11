@@ -140,7 +140,6 @@ public class Laser : MonoBehaviour {
 			isLaserOn = false;
 			beam.transform.localScale = new Vector3(BEAM_SCALE, BEAM_SCALE, BEAM_SCALE);
 			beam.transform.localPosition = Vector3.zero;
-			beam.SetMadeContact(false);
 		} else if (Input.GetKeyDown(KeyCode.S)) { // 'S' = *S*hoot the laser
 			isLaserOn = true;
         }
