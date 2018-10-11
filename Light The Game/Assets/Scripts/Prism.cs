@@ -33,11 +33,11 @@ public class Prism : MonoBehaviour {
         }
 	}
 
-    void OnCollisionEnter(Collision other)
+    void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Beam")
+        if(other.tag == "Beam")
         {
-            Laser tempContactLaser = other.gameObject.GetComponentInParent<Laser>();
+            Laser tempContactLaser = other.GetComponentInParent<Laser>();
 
             bool correctDirection = false;
 

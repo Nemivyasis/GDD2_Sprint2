@@ -7,23 +7,27 @@ public class Mirror : MonoBehaviour {
     Vector3 pos;
     //rotation of the mirror
     Vector3 eulerTheta;
-    float theta;
+    public int theta;
 
 	// Use this for initialization
 	void Start () {
         pos = new Vector3(0.0f, 0.0f, 0.0f);
-        eulerTheta = new Vector3(0.0f, 0.0f, 0.0f);
-        theta = 0;
+        eulerTheta = new Vector3(0.0f, 0.0f, 45.0f);
+        Quaternion rotation = Quaternion.Euler(eulerTheta);
+        transform.rotation = rotation;
+        theta = 45;
 	}
 
     private void Update()
     {
-        Rotate();
+        
     }
 
     //for placing the mirror
     void OnMouseDrag()
     {
+        Rotate();
+
         //get the mouse pos
         Vector3 mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
 
@@ -44,12 +48,12 @@ public class Mirror : MonoBehaviour {
         if (Input.GetKeyDown("r"))
         {
             //increment rotation by 45 degrees
-            theta += 45.0f;
+            theta += 90;
 
             //if theta exceeds 360 degrees, set the theta back to 0
-            if(theta >= 360.0f)
+            if(theta >= 360)
             {
-                theta = 0;
+                theta = theta - 360;
             }
 
             //set the vector3 to the theta 

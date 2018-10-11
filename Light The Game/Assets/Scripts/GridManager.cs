@@ -44,6 +44,14 @@ public class GridManager : MonoBehaviour {
         {
             victory = false;
             victoryText.gameObject.SetActive(false);
+
+            GameObject[] fakeLasers = GameObject.FindGameObjectsWithTag("FakeLaser");
+
+            int size = fakeLasers.Length;
+            for (int i = 0; i < size; i++)
+            {
+                Destroy(fakeLasers[i]);
+            }
         }
 	}
 }

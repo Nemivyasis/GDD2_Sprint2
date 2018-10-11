@@ -7,6 +7,10 @@ TagManager:
   - Wall
   - Prism
   - Beam
+  - Mirror
+  - MirrorBody
+  - FakeLaser
+  - LaserBody
   layers:
   - Default
   - TransparentFX

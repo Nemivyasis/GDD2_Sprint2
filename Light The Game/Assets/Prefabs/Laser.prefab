@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 54655396329090532}
   m_Layer: 0
   m_Name: Beam
-  m_TagString: Untagged
+  m_TagString: Beam
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -57,7 +57,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1360916904476442}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2, y: 0, z: 2}
+  m_LocalPosition: {x: -5.62, y: -1.27, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4803002191083970}
@@ -211,6 +211,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6178c2938ae6cd94ab8858dbe35c4dfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hasMadeContact: 0
+  ignoreObjects:
+  - {fileID: 1360916904476442}
+  fakeLaser: {fileID: 1808280689357008, guid: 6af95e63e1188f2409ffd91517bf45a9, type: 2}
+  mirrorStopTime: 0.05
 --- !u!114 &114540632854275454
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -223,4 +228,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   color: 0
-  dir: 3
+  dir: 0
+  isLaserOn: 0
