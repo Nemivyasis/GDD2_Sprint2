@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -179,38 +179,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!1 &272238829 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1362957731603662, guid: 9c5beac13603e9e4bb93811784b5b4b0,
-    type: 2}
-  m_PrefabInternal: {fileID: 1570085612}
---- !u!65 &272238831
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 272238829}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.32380065, y: 0.91067654, z: 1}
-  m_Center: {x: -0.3380995, y: -0.001318773, z: 0}
---- !u!54 &272238832
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 272238829}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &371667290
 GameObject:
   m_ObjectHideFlags: 0
@@ -304,7 +272,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1713376824167456, guid: 9c5beac13603e9e4bb93811784b5b4b0, type: 2}
       propertyPath: m_TagString
-      value: MirrorBody
+      value: Mirror
       objectReference: {fileID: 0}
     - target: {fileID: 65708513975722306, guid: 9c5beac13603e9e4bb93811784b5b4b0,
         type: 2}
@@ -443,27 +411,25 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 1362957731603662, guid: 9c5beac13603e9e4bb93811784b5b4b0, type: 2}
-      propertyPath: m_TagString
-      value: Mirror
-      objectReference: {fileID: 0}
-    - target: {fileID: 1713376824167456, guid: 9c5beac13603e9e4bb93811784b5b4b0, type: 2}
-      propertyPath: m_TagString
-      value: MirrorBody
-      objectReference: {fileID: 0}
     - target: {fileID: 65708513975722306, guid: 9c5beac13603e9e4bb93811784b5b4b0,
         type: 2}
       propertyPath: m_Size.x
-      value: 1.0059419
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 65708513975722306, guid: 9c5beac13603e9e4bb93811784b5b4b0,
+        type: 2}
+      propertyPath: m_Size.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 65708513975722306, guid: 9c5beac13603e9e4bb93811784b5b4b0,
         type: 2}
       propertyPath: m_Center.x
-      value: -0.002970934
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4863027631694824, guid: 9c5beac13603e9e4bb93811784b5b4b0, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 1.0232159
+    - target: {fileID: 65708513975722306, guid: 9c5beac13603e9e4bb93811784b5b4b0,
+        type: 2}
+      propertyPath: m_Center.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c5beac13603e9e4bb93811784b5b4b0, type: 2}
@@ -1042,38 +1008,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1030580981 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1362957731603662, guid: 9c5beac13603e9e4bb93811784b5b4b0,
-    type: 2}
-  m_PrefabInternal: {fileID: 550490964}
---- !u!65 &1030580983
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1030580981}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.32380065, y: 0.91067654, z: 1}
-  m_Center: {x: -0.3380995, y: -0.001318773, z: 0}
---- !u!54 &1030580986
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1030580981}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1001 &1376266040
 Prefab:
   m_ObjectHideFlags: 0
@@ -1117,10 +1051,13 @@ Prefab:
       propertyPath: m_Name
       value: Red Laser
       objectReference: {fileID: 0}
-    - target: {fileID: 65285617040937358, guid: 27c82bc54ad57aa42a36774cc3a181b2,
-        type: 2}
-      propertyPath: m_IsTrigger
-      value: 1
+    - target: {fileID: 1288891123751790, guid: 27c82bc54ad57aa42a36774cc3a181b2, type: 2}
+      propertyPath: m_TagString
+      value: Beam
+      objectReference: {fileID: 0}
+    - target: {fileID: 1288891123751790, guid: 27c82bc54ad57aa42a36774cc3a181b2, type: 2}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 27c82bc54ad57aa42a36774cc3a181b2, type: 2}
@@ -1170,7 +1107,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1713376824167456, guid: 9c5beac13603e9e4bb93811784b5b4b0, type: 2}
       propertyPath: m_TagString
-      value: MirrorBody
+      value: Mirror
       objectReference: {fileID: 0}
     - target: {fileID: 65708513975722306, guid: 9c5beac13603e9e4bb93811784b5b4b0,
         type: 2}
@@ -1306,28 +1243,6 @@ Prefab:
     - target: {fileID: 4607088560118154, guid: 9c5beac13603e9e4bb93811784b5b4b0, type: 2}
       propertyPath: m_RootOrder
       value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 1362957731603662, guid: 9c5beac13603e9e4bb93811784b5b4b0, type: 2}
-      propertyPath: m_TagString
-      value: Mirror
-      objectReference: {fileID: 0}
-    - target: {fileID: 1713376824167456, guid: 9c5beac13603e9e4bb93811784b5b4b0, type: 2}
-      propertyPath: m_TagString
-      value: MirrorBody
-      objectReference: {fileID: 0}
-    - target: {fileID: 65708513975722306, guid: 9c5beac13603e9e4bb93811784b5b4b0,
-        type: 2}
-      propertyPath: m_Size.x
-      value: 1.0059419
-      objectReference: {fileID: 0}
-    - target: {fileID: 65708513975722306, guid: 9c5beac13603e9e4bb93811784b5b4b0,
-        type: 2}
-      propertyPath: m_Center.x
-      value: -0.002970934
-      objectReference: {fileID: 0}
-    - target: {fileID: 4863027631694824, guid: 9c5beac13603e9e4bb93811784b5b4b0, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 1.0232159
       objectReference: {fileID: 0}
     - target: {fileID: 1713376824167456, guid: 9c5beac13603e9e4bb93811784b5b4b0, type: 2}
       propertyPath: m_Name
@@ -1600,6 +1515,18 @@ Prefab:
         type: 2}
       propertyPath: m_IsTrigger
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1288891123751790, guid: 27c82bc54ad57aa42a36774cc3a181b2, type: 2}
+      propertyPath: m_TagString
+      value: Beam
+      objectReference: {fileID: 0}
+    - target: {fileID: 1360916904476442, guid: 27c82bc54ad57aa42a36774cc3a181b2, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1288891123751790, guid: 27c82bc54ad57aa42a36774cc3a181b2, type: 2}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 27c82bc54ad57aa42a36774cc3a181b2, type: 2}

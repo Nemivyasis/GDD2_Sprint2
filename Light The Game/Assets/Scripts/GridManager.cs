@@ -8,15 +8,28 @@ public class GridManager : MonoBehaviour {
     GameObject[] prisms;
     bool victory = false;
     public Text victoryText;
+    Laser[] lasers;
 
 	// Use this for initialization
 	void Start () {
         //find lasers here
+        GameObject[] temp = GameObject.FindGameObjectsWithTag("LaserBody");
+
+        lasers = new Laser[temp.Length];
+        for (int i = 0; i < temp.Length; i++)
+        {
+            lasers[i] = temp[i].GetComponent<Laser>();
+        }
+
         prisms = GameObject.FindGameObjectsWithTag("Prism");
 	}
 	
 	// Update is called once per frame
 	void Update () {
+        foreach (var item in lasers)
+        {
+            item.CalcLaser();
+        }
         if (!victory)
         {
             //set an initial boolean

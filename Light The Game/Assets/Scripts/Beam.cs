@@ -20,46 +20,184 @@ public class Beam : MonoBehaviour {
     float mirrorTimer = 0;
     public float mirrorStopTime = 0.05f;
 
+    public Vector3 direction;
+
+    private Vector3 endPoint;
+
+    public GameObject nextLaser = null;
+    public Laser nextLaserScript = null;
+
     private GameObject mirrorToReflectOn;
 	// Ensures that the rigidbody attached to this beam is kinematic.
 	private void Awake() {
+        endPoint = new Vector3(-1000, -1000, -1000);
 		GetComponent<Rigidbody>().isKinematic = true;
 	}
 
-    private void Update()
+    public void CalcEnd()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        RaycastHit endObj;
+
+        Vector3 toRayCastPoint = new Vector3(-direction.x * .5f * transform.localScale.x, -direction.y * .5f * transform.localScale.x, 0);
+
+        bool hitObj = Physics.Raycast(transform.position + toRayCastPoint + direction * .01f, direction, out endObj);
+
+        if (hitObj)
         {
-            mirrorCollision = false;
-            mirrorTimer = 0;
-            delayedCollision = false;
-        }
-
-        if (delayedCollision)
-        {
-            if(mirrorTimer >= mirrorStopTime)
-            {
-                delayedCollision = false;
-
-                mirrorTimer = 0;
-                hasMadeContact = true;
-
-                if (mirrorCollision)
-                {
-                    mirrorCollision = false;
-                    Reflect(mirrorToReflectOn);
-                }
-
-
-                return;
+            if(!endObj.transform.gameObject.tag.Equals("Mirror")){
+                DestroyNextLasers();
             }
 
-            mirrorTimer += Time.deltaTime;
+            if (endObj.transform.gameObject.tag.Equals("Wall"))
+            {
+                DrawLaser(endObj, transform.position + toRayCastPoint);
+            }
+            else if (endObj.transform.gameObject.tag.Equals("Prism"))
+            {
+                DrawLaser(endObj, transform.position + toRayCastPoint);
+            }
+            else if (endObj.transform.gameObject.tag.Equals("Mirror"))
+            {
+                DrawLaser(endObj, transform.position + toRayCastPoint);
+                Reflect(endObj);
+            }
+            else if (endObj.transform.gameObject.tag.Equals("LaserBody"))
+            {
+                DrawLaser(endObj, transform.position + toRayCastPoint);
+            }
+        }
+
+        if(nextLaser != null)
+        {
+            nextLaserScript.CalcLaser();
         }
     }
 
-	// Getter for if the beam has made contact with something.
-	public bool GetMadeContact() {
+    private void DrawLaser(RaycastHit endObj, Vector3 rayCastPos)
+    {
+        float x = endObj.point.x - rayCastPos.x;
+        float y = endObj.point.y - rayCastPos.y;
+        transform.localScale = new Vector3(Mathf.Abs(Vector3.Magnitude(new Vector3(x, y, 0))), transform.localScale.y, transform.localScale.z);
+
+        transform.position = transform.parent.position;
+
+        if (gameObject.tag != "Beam")
+        {
+            Debug.DrawLine(transform.position, endObj.point);
+        }
+
+        if (direction.x == 0)
+        {
+            if(y > 0)
+            {
+                transform.rotation = Quaternion.Euler(0, 0, 90);
+            }
+            else
+            {
+                transform.rotation = Quaternion.Euler(0, 0, 270);
+            }
+        }
+        else if (direction.x < 0)
+        {
+            Debug.Log(" < 0");
+            transform.rotation = Quaternion.Euler(0, 0, Mathf.Rad2Deg * (float) Math.Atan(direction.y / direction.x) + 180);
+        }
+        else
+        {
+            Debug.Log( Math.Tanh(direction.y / direction.x));
+            transform.rotation = Quaternion.Euler(0, 0, Mathf.Rad2Deg * (float) Math.Atan(direction.y / direction.x));
+        }
+
+        
+        transform.Translate(new Vector3(Vector3.Magnitude(new Vector3(x, y, 0)) / 2, 0, 0));
+    }
+
+    private void Reflect(RaycastHit endObj)
+    {
+        Mirror mirror = endObj.transform.gameObject.GetComponent<Mirror>();
+
+        //check if it hits the right part
+        mirror.CalculateProperties();
+        Vector3 topMirror = mirror.GetGlobalTopCoord();
+        Vector3 botMirror = mirror.GetGlobalBotCoord();
+
+        if((endObj.point.x > topMirror.x && endObj.point.x > botMirror.x) || (endObj.point.x < topMirror.x && endObj.point.x < botMirror.x))
+        {
+            DestroyNextLasers();
+            return;
+        }
+        if ((endObj.point.y > topMirror.y && endObj.point.y > botMirror.y ) || (endObj.point.y < topMirror.y && endObj.point.y < botMirror.y))
+        {
+            DestroyNextLasers();
+            return;
+        }
+
+
+        //if it does make a new laser if necessary
+        if(nextLaser == null)
+        {
+            nextLaser = Instantiate(fakeLaser);
+            nextLaserScript = nextLaser.GetComponent<Laser>();
+            nextLaserScript.color = transform.parent.gameObject.GetComponent<Laser>().color;
+            nextLaser.GetComponentInChildren<Beam>().fakeLaser = fakeLaser;
+
+            nextLaserScript.OnAwake();
+        }
+        //update nextlaser attributes based on angle and such
+        nextLaser.transform.position = endObj.point;
+        
+        //the direction
+        float lightAngle = transform.eulerAngles.z;
+
+        while(lightAngle >= 360)
+        {
+            lightAngle -= 360;
+        }
+        while (lightAngle < 0)
+        {
+            lightAngle += 360;
+        }
+
+        float mirrorAngle = mirror.transform.eulerAngles.z;
+        while (mirrorAngle >= 360)
+        {
+            mirrorAngle -= 360;
+        }
+        while(mirrorAngle < 0)
+        {
+            mirrorAngle += 360;
+        }
+        float incidentAngle = mirrorAngle - (180 + lightAngle);
+
+        float newAngle = mirrorAngle + incidentAngle;
+
+        nextLaser.GetComponentInChildren<Beam>().direction = new Vector3(Mathf.Cos(Mathf.Deg2Rad * newAngle), Mathf.Sin(Mathf.Deg2Rad * newAngle), 0);
+    }
+
+    private void DestroyNextLasers()
+    {
+        if(nextLaser != null)
+        {
+            List<GameObject> toDestroy = new List<GameObject>();
+            toDestroy.Add(nextLaser);
+
+            while (toDestroy[toDestroy.Count - 1].GetComponentInChildren<Beam>().nextLaser != null)
+            {
+                toDestroy.Add(toDestroy[toDestroy.Count - 1].GetComponentInChildren<Beam>().nextLaser);
+            }
+
+            int size = toDestroy.Count;
+
+            for (int i = 0; i < size; i++)
+            {
+                Destroy(toDestroy[i]);
+            }
+        }
+    }
+
+
+    // Getter for if the beam has made contact with something.
+    public bool GetMadeContact() {
 		return hasMadeContact;
 	}
 
@@ -115,70 +253,6 @@ public class Beam : MonoBehaviour {
         }
     }
 
-    private void Reflect(GameObject mirror)
-    {
-        int mirrorDir = mirror.GetComponentInParent<Mirror>().GetTheta();
-        Laser parentScript = GetComponentInParent<Laser>();
-
-        Vector3 contactPos;
-
-        switch (parentScript.dir)
-        {
-            case Laser.Direction.Up:
-                contactPos = new Vector3(transform.position.x, transform.position.y + transform.localScale.y / 2);
-
-                if (mirrorDir == 45)
-                {
-                    GenerateNewLaser(contactPos, parentScript.color, Laser.Direction.Left, mirror);
-                }
-                if (mirrorDir == 135)
-                {
-                    GenerateNewLaser(contactPos, parentScript.color, Laser.Direction.Right, mirror);
-                }
-                break;
-            case Laser.Direction.Down:
-                contactPos = new Vector3(transform.position.x, transform.position.y + transform.localScale.y / 2);
-
-                if (mirrorDir == 225)
-                {
-                    GenerateNewLaser(contactPos, parentScript.color, Laser.Direction.Right, mirror);
-                }
-                if (mirrorDir == 315)
-                {
-                    GenerateNewLaser(contactPos, parentScript.color, Laser.Direction.Left, mirror);
-                }
-                break;
-            case Laser.Direction.Left:
-                contactPos = new Vector3(transform.position.x + transform.localScale.x / 2, transform.position.y);
-
-                if (mirrorDir == 135)
-                {
-                    GenerateNewLaser(contactPos, parentScript.color, Laser.Direction.Down, mirror);
-                }
-                if (mirrorDir == 225)
-                {
-                    GenerateNewLaser(contactPos, parentScript.color, Laser.Direction.Up, mirror);
-                }
-                break;
-            case Laser.Direction.Right:
-                
-                contactPos = new Vector3(transform.position.x + transform.localScale.x / 2, transform.position.y);
-
-                if (mirrorDir == 45)
-                {
-                    GenerateNewLaser(contactPos, parentScript.color, Laser.Direction.Down, mirror);
-                }
-                if (mirrorDir == 315)
-                {
-                    GenerateNewLaser(contactPos, parentScript.color, Laser.Direction.Up, mirror);
-                }
-                break;
-            case Laser.Direction.None:
-                break;
-            default:
-                break;
-        }
-    }
 
     private void GenerateNewLaser(Vector3 startPos, Laser.LaserColor color, Laser.Direction direction, GameObject mirror)
     {

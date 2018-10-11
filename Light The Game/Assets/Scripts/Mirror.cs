@@ -12,6 +12,13 @@ public class Mirror : MonoBehaviour {
     //speed of rotation
     float speed;
 
+
+    //vince stuff pls help
+    public Vector3 topMirror;
+    public Vector3 botMirror;
+
+    bool upToDate = false;
+
 	// Use this for initialization
 	void Start () {
         pos = new Vector3(0.0f, 0.0f, 0.0f);
@@ -49,10 +56,12 @@ public class Mirror : MonoBehaviour {
         if (Input.GetKey(KeyCode.RightArrow))
         {
             transform.Rotate(new Vector3(0, 0, 1) * speed * Time.deltaTime, Space.World);
+            upToDate = false;
         }
         else if (Input.GetKey(KeyCode.LeftArrow))
         {
             transform.Rotate(new Vector3(0, 0, -1) * speed * Time.deltaTime, Space.World);
+            upToDate = false;
         }
     }
 
@@ -76,5 +85,40 @@ public class Mirror : MonoBehaviour {
     {
         theta = (int) transform.localRotation.z;
         return theta;
+    }
+
+
+    //calculates properties of the mirror edge (is important)
+    public void CalculateProperties()
+    {
+        if (!upToDate)
+        {
+            CalcMirrorTopAndBotPoints();
+
+            upToDate = true;
+        }
+    }
+
+    private void CalcMirrorTopAndBotPoints()
+    {
+        Vector4 startTop = new Vector4(transform.localScale.x / 2, transform.localScale.y / 2, 0, 0);
+        Vector4 startBot = new Vector4(transform.localScale.x / 2, -transform.localScale.y / 2, 0, 0);
+        float angle = Mathf.Deg2Rad * transform.eulerAngles.z;
+
+        Matrix4x4 rotMat = new Matrix4x4(new Vector4(Mathf.Cos(angle), Mathf.Sin(angle), 0, 0),
+            new Vector4(-Mathf.Sin(angle), Mathf.Cos(angle), 0, 0), new Vector4(0, 0, 1, 0),
+            new Vector4(0, 0, 0, 0));
+
+        topMirror = rotMat * startTop;
+        botMirror = rotMat * startBot;
+    }
+
+    public Vector3 GetGlobalTopCoord()
+    {
+        return topMirror + transform.position;
+    }
+    public Vector3 GetGlobalBotCoord()
+    {
+        return botMirror + transform.position;
     }
 }

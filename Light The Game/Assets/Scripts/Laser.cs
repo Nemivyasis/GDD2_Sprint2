@@ -21,7 +21,7 @@ public class Laser : MonoBehaviour {
 	private float laserTimer = 0f; // The laser beam scales by time. Used instead of Time.time so we can reset it as we wish.
 	public bool isLaserOn = false; // By default, the lasers are off until the player says to shoot them (via input).
 
-	private const float BEAM_SCALE = 1/4f; // The beam's scale will always be 1/4th of the laser.
+	private const float BEAM_SCALE = 1/16f; // The beam's scale will always be 1/4th of the laser.
 	private const float LASER_SPD = 1/20f; // The speed at which the laser shoots, as an alternative to Time.deltaTime.
 
 	/** Grab a reference to the child object, the laser beam. We can then access the 
@@ -37,6 +37,8 @@ public class Laser : MonoBehaviour {
         beam = this.gameObject.transform.GetChild(0).GetComponent<Beam>();
         beamColl = beam.GetComponent<BoxCollider>();
         ChooseColor();
+        ChooseDirection();
+
     }
 	/** Based on the four possible directions, choose a direction for this laser.
 	 * Every frame, expand the laser beam based on time and translate it to give the illusion that it
@@ -45,26 +47,33 @@ public class Laser : MonoBehaviour {
 	 * If the lasers are off or the beam's made contact with something, then skip expanding the lasers and updating time entirely.
 	 */
 	private void ChooseDirection() {
-		if (!isLaserOn || beam.GetMadeContact()) { // If the lasers are off or the beam has made contact with something...
-			return; // Don't do anything and skip the rest of this function.
-		}
 
-		if (dir.Equals(Direction.Up)) {
-			beam.transform.localScale = new Vector3(BEAM_SCALE, laserTimer, BEAM_SCALE);
-			beam.transform.Translate(Vector3.up * (LASER_SPD / 2 ));
-		} else if (dir.Equals(Direction.Down)) {
-			beam.transform.localScale = new Vector3(BEAM_SCALE, -laserTimer, BEAM_SCALE);
-			beam.transform.Translate(Vector3.up * (-LASER_SPD / 2) );
-		} else if (dir.Equals(Direction.Left)) {
-			beam.transform.localScale = new Vector3(-laserTimer, BEAM_SCALE, BEAM_SCALE);
-			beam.transform.Translate(Vector3.right * (-LASER_SPD / 2) );
-		} else if (dir.Equals(Direction.Right)) {
-			beam.transform.localScale = new Vector3(laserTimer, BEAM_SCALE, BEAM_SCALE);
-			beam.transform.Translate(Vector3.right * (LASER_SPD / 2) );
-		} else { // No direction.
-			beamColl.center = Vector3.zero;
-		}
-		laserTimer += LASER_SPD;
+        if (dir.Equals(Direction.Up))
+        {
+            beam.transform.localScale = new Vector3(BEAM_SCALE, BEAM_SCALE, BEAM_SCALE);
+            beam.direction = Vector3.up;
+        }
+        else if (dir.Equals(Direction.Down))
+        {
+            beam.transform.localScale = new Vector3(BEAM_SCALE, BEAM_SCALE, BEAM_SCALE);
+            beam.direction = -Vector3.up;
+        }
+        else if (dir.Equals(Direction.Left))
+        {
+            beam.transform.localScale = new Vector3(BEAM_SCALE, BEAM_SCALE, BEAM_SCALE);
+            beam.direction = -Vector3.right;
+        }
+        else if (dir.Equals(Direction.Right))
+        {
+            beam.transform.localScale = new Vector3(BEAM_SCALE, BEAM_SCALE, BEAM_SCALE);
+            beam.direction = Vector3.right;
+        }
+        else
+        { // No direction.
+            beam.transform.localScale = new Vector3(BEAM_SCALE, BEAM_SCALE, BEAM_SCALE);
+        }
+
+        laserTimer += LASER_SPD;
 	}
 
 	/** Based on the seven possible colors, choose a color for this laser.
@@ -74,26 +83,47 @@ public class Laser : MonoBehaviour {
 	private void ChooseColor() {
 		if (color == LaserColor.Red) {
 			beam.GetComponent<Renderer>().material.color = Color.red;
-			GetComponent<Renderer>().material.color = Color.red;
+			if(GetComponent<Renderer>() != null)
+            {
+                GetComponent<Renderer>().material.color = Color.red;
+            }
 		} else if (color == LaserColor.Blue) {
 			beam.GetComponent<Renderer>().material.color = Color.blue;
-			GetComponent<Renderer>().material.color = Color.blue;
-		} else if (color == LaserColor.Yellow) {
+            if (GetComponent<Renderer>() != null)
+            {
+                GetComponent<Renderer>().material.color = Color.blue;
+            }
+        } else if (color == LaserColor.Yellow) {
 			beam.GetComponent<Renderer>().material.color = Color.yellow;
-			GetComponent<Renderer>().material.color = Color.yellow;
-		} else if (color == LaserColor.Purple) {
+            if (GetComponent<Renderer>() != null)
+            {
+                GetComponent<Renderer>().material.color = Color.yellow;
+            }
+        } else if (color == LaserColor.Purple) {
 			beam.GetComponent<Renderer>().material.color = new Color(1.0f, 0.0f, 1.0f);
-			GetComponent<Renderer>().material.color = new Color(1.0f, 0.0f, 1.0f);
-		} else if (color == LaserColor.Green) {
+            if (GetComponent<Renderer>() != null)
+            {
+                GetComponent<Renderer>().material.color = new Color(1.0f, 0.0f, 1.0f);
+            }
+        } else if (color == LaserColor.Green) {
 			beam.GetComponent<Renderer>().material.color = Color.green;
-			GetComponent<Renderer>().material.color = Color.green;
-		} else if (color == LaserColor.Orange) {
+            if (GetComponent<Renderer>() != null)
+            {
+                GetComponent<Renderer>().material.color = Color.green;
+            }
+        } else if (color == LaserColor.Orange) {
 			beam.GetComponent<Renderer>().material.color = new Color(1.0f, 0.5f, 0.0f);
-			GetComponent<Renderer>().material.color = new Color(1.0f, 0.5f, 0.0f);
-		} else if (color == LaserColor.White) {
+            if (GetComponent<Renderer>() != null)
+            {
+                GetComponent<Renderer>().material.color = new Color(1.0f, 0.5f, 0.0f);
+            }
+        } else if (color == LaserColor.White) {
 			beam.GetComponent<Renderer>().material.color = Color.white;
-			GetComponent<Renderer>().material.color = Color.white;
-		}
+            if (GetComponent<Renderer>() != null)
+            {
+                GetComponent<Renderer>().material.color = Color.white;
+            }
+        }
 		beam.SetColor(color);
 
 	}
@@ -118,9 +148,14 @@ public class Laser : MonoBehaviour {
 
 	// Every frame, shoot the laser outwards.
 	private void Update () {
-		ChooseDirection();
-		ProcessInput();
+		//ChooseDirection();
+		//ProcessInput();
 	}
+
+    public void CalcLaser()
+    {
+        beam.CalcEnd();
+    }
 
     public void ActivateLaser(bool active)
     {
