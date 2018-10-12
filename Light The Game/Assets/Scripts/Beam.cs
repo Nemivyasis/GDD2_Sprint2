@@ -9,7 +9,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Beam : MonoBehaviour {
 
-	private Laser.LaserColor color;
+    private Beam prevBeam;
+    private Laser.LaserColor color;
 
     public List<GameObject> ignoreObjects;
     public GameObject fakeLaser;
@@ -22,12 +23,28 @@ public class Beam : MonoBehaviour {
     public Laser nextLaserScript = null;
 
     private GameObject mirrorToReflectOn;
-	// Ensures that the rigidbody attached to this beam is kinematic.
-	private void Awake() {
-        endPoint = new Vector3(-1000, -1000, -1000);
-		GetComponent<Rigidbody>().isKinematic = true;
-	}
 
+    private float safeGuardTimer = .05f;
+    private float startTime = 0;
+    // Ensures that the rigidbody attached to this beam is kinematic.
+    private void Awake() {
+        endPoint = new Vector3(-1000, -1000, -1000);
+        GetComponent<Rigidbody>().isKinematic = true;
+
+        startTime = Time.time;
+    }
+
+    private void Update()
+    {
+        if(Time.time - startTime > safeGuardTimer)
+        {
+            if(prevBeam == null && gameObject.transform.parent.gameObject.tag != "LaserBody")
+            {
+                DestroyNextLasers();
+                Destroy(transform.parent.gameObject);
+            }
+        }
+    }
     //finds where the laser will end
     public void CalcEnd()
     {
@@ -140,6 +157,8 @@ public class Beam : MonoBehaviour {
             nextLaser = Instantiate(fakeLaser);
 
             //set some values
+            nextLaser.GetComponentInChildren<Beam>().prevBeam = this;
+
             nextLaserScript = nextLaser.GetComponent<Laser>();
             nextLaserScript.color = transform.parent.gameObject.GetComponent<Laser>().color;
             nextLaser.GetComponentInChildren<Beam>().fakeLaser = fakeLaser;

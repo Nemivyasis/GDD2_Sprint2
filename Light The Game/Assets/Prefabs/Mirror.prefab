@@ -200,8 +200,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0280023, y: 1.0241747, z: 1}
-  m_Center: {x: 0.008059263, y: 0.0021605492, z: 0}
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114998831757281500
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -213,5 +213,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 129c6bdb66a3fd04280e44efbae904b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  topMirror: {x: 0, y: 0}
-  botMirror: {x: 0, y: 0}
+  topMirror: {x: 0, y: 0, z: 0}
+  botMirror: {x: 0, y: 0, z: 0}
