@@ -26,6 +26,10 @@ public class GridManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        foreach (var item in prisms)
+        {
+            item.GetComponent<Prism>().activated = false;
+        }
         foreach (var item in lasers)
         {
             item.CalcLaser();

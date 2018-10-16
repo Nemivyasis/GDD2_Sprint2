@@ -70,6 +70,10 @@ public class Beam : MonoBehaviour {
             }
             else if (endObj.transform.gameObject.tag.Equals("Prism"))
             {
+                if(endObj.transform.gameObject.GetComponent<Prism>().color.ToString() == gameObject.GetComponentInParent<Laser>().color.ToString())
+                {
+                    endObj.transform.gameObject.GetComponent<Prism>().activated = true;
+                }
                 DrawLaser(endObj, transform.position + toRayCastPoint);
             }
             else if (endObj.transform.gameObject.tag.Equals("Mirror"))
