@@ -23,7 +23,7 @@ public class Mirror : MonoBehaviour {
 	void Start () {
         pos = new Vector3(0.0f, 0.0f, 0.0f);
         theta = 0;
-        speed = 20.0f;
+        speed = 55.0f;
 	}
 
     //when mouse hovers over mirror, that mirror can rotate
