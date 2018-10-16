@@ -8,7 +8,7 @@ using UnityEngine;
 public class Laser : MonoBehaviour {
 
 	// These enums might be better off in the manager class.
-	public enum LaserColor {Red, Blue, Yellow, Purple, Green, Orange, White};
+	public enum LaserColor {Red, Yellow, Orange, Blue, Purple, Green, White};
 	public enum Direction {Up, Down, Left, Right, None};
 
 	public LaserColor color; 
@@ -36,10 +36,52 @@ public class Laser : MonoBehaviour {
     {
         beam = this.gameObject.transform.GetChild(0).GetComponent<Beam>();
         beamColl = beam.GetComponent<BoxCollider>();
+        SetColorVec();
         ChooseColor();
         ChooseDirection();
 
     }
+
+    private void SetColorVec()
+    {
+        //set color moment
+        int colorInt = ((int)color) + 1;
+        if (colorInt >= 4)
+        {
+            beam.colorVec.z = 1;
+            colorInt -= 4;
+        }
+        else
+        {
+            beam.colorVec.z = 0;
+        }
+        if (colorInt >= 2)
+        {
+            beam.colorVec.y = 1;
+            colorInt -= 2;
+        }
+        else
+        {
+            beam.colorVec.y = 0;
+        }
+        if (colorInt == 1)
+        {
+            beam.colorVec.x = 1;
+        }
+        else
+        {
+            beam.colorVec.x = 0;
+        }
+    }
+
+    public void SetColorEnum()
+    {
+        int colorInt = (int)beam.colorVec.z * 4 + (int)beam.colorVec.y * 2 + (int)beam.colorVec.x - 1;
+        color = (LaserColor)colorInt;
+
+        ChooseColor();
+    }
+
 	/** Based on the four possible directions, choose a direction for this laser.
 	 * Every frame, expand the laser beam based on time and translate it to give the illusion that it
 	 * is properly shooting out of the cube.

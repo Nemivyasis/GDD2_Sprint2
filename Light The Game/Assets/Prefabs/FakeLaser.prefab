@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 54853552748024526}
   m_Layer: 2
   m_Name: FakeLaser
-  m_TagString: Untagged
+  m_TagString: Beam
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -168,10 +168,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6178c2938ae6cd94ab8858dbe35c4dfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasMadeContact: 0
+  colorVec: {x: 0, y: 0, z: 0}
   ignoreObjects: []
   fakeLaser: {fileID: 0}
-  mirrorStopTime: 0.05
   direction: {x: 0, y: 0, z: 0}
   nextLaser: {fileID: 0}
   nextLaserScript: {fileID: 0}

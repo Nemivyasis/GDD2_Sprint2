@@ -11,6 +11,7 @@ public class Beam : MonoBehaviour {
 
     private Beam prevBeam;
     private Laser.LaserColor color;
+    public Vector3 colorVec;
 
     public List<GameObject> ignoreObjects;
     public GameObject fakeLaser;
@@ -53,8 +54,15 @@ public class Beam : MonoBehaviour {
         //finds the point at the far back of the laser
         Vector3 toRayCastPoint = new Vector3(-direction.x * .5f * transform.localScale.x, -direction.y * .5f * transform.localScale.x, 0);
 
+        gameObject.layer = 2;
+        if(nextLaser != null)
+        {
+            nextLaser.transform.GetChild(0).gameObject.layer = 2;
+        }
         //raycast
         bool hitObj = Physics.Raycast(transform.position + toRayCastPoint + direction * .01f, direction, out endObj);
+
+
 
         //what will it hit
         if (hitObj)
@@ -66,7 +74,7 @@ public class Beam : MonoBehaviour {
 
             if (endObj.transform.gameObject.tag.Equals("Wall"))
             {
-                DrawLaser(endObj, transform.position + toRayCastPoint);
+                DrawLaser(endObj.point, transform.position + toRayCastPoint);
             }
             else if (endObj.transform.gameObject.tag.Equals("Prism"))
             {
@@ -74,16 +82,21 @@ public class Beam : MonoBehaviour {
                 {
                     endObj.transform.gameObject.GetComponent<Prism>().activated = true;
                 }
-                DrawLaser(endObj, transform.position + toRayCastPoint);
+                DrawLaser(endObj.point, transform.position + toRayCastPoint);
             }
             else if (endObj.transform.gameObject.tag.Equals("Mirror"))
             {
-                DrawLaser(endObj, transform.position + toRayCastPoint);
+                DrawLaser(endObj.point, transform.position + toRayCastPoint);
                 Reflect(endObj);
             }
             else if (endObj.transform.gameObject.tag.Equals("LaserBody"))
             {
-                DrawLaser(endObj, transform.position + toRayCastPoint);
+                DrawLaser(endObj.point, transform.position + toRayCastPoint);
+            }
+            else if (endObj.transform.gameObject.tag.Equals("Beam"))
+            {
+                Debug.Log("Boom");
+                BeamHit(endObj, transform.position + toRayCastPoint);
             }
         }
 
@@ -92,13 +105,72 @@ public class Beam : MonoBehaviour {
         {
             nextLaserScript.CalcLaser();
         }
+
+        if (nextLaser != null)
+        {
+            nextLaser.transform.GetChild(0).gameObject.layer = 0;
+        }
+        gameObject.layer = 0;
     }
 
-    private void DrawLaser(RaycastHit endObj, Vector3 rayCastPos)
+
+    //what to do if a beam is hit
+    private void BeamHit(RaycastHit endObj, Vector3 startPoint)
+    {
+        Debug.Log("BeamHit");
+        //calculate where the intersection is
+        Beam hitBeam = endObj.transform.gameObject.GetComponent<Beam>();
+
+        float thisSlope = direction.y / direction.x;
+        float thisB = transform.position.y / (transform.position.x * thisSlope);
+        
+        float otherSlope = hitBeam.direction.y / hitBeam.direction.x;
+        float otherB = hitBeam.transform.position.y / (hitBeam.transform.position.x * otherSlope);
+        float interX = (thisB - otherB) / (otherSlope - thisSlope);
+        float interY = thisSlope * interX + thisB;
+
+        Vector3 splitPoint = new Vector3(interX, interY, transform.position.z);
+
+        //draw a new laser to that point
+        DrawLaser(splitPoint, startPoint);
+        Debug.Log("Draw BeamLaser");
+        //calculate new color
+        Vector3 newColorVec = new Vector3(Mathf.Max(colorVec.x, hitBeam.colorVec.x), Mathf.Max(colorVec.y, hitBeam.colorVec.y), Mathf.Max(colorVec.z, hitBeam.colorVec.z));
+
+        //create a new laser at that point with same direction, the new color
+        //if it does make a new laser if necessary
+        if (nextLaser == null)
+        {
+            nextLaser = Instantiate(fakeLaser);
+
+            //set some values
+            nextLaser.GetComponentInChildren<Beam>().prevBeam = this;
+
+            nextLaserScript = nextLaser.GetComponent<Laser>();
+
+            nextLaser.GetComponentInChildren<Beam>().fakeLaser = fakeLaser;
+
+            nextLaserScript.OnAwake();
+        }
+
+        nextLaser.GetComponentInChildren<Beam>().colorVec = newColorVec;
+        nextLaserScript.SetColorEnum();
+
+        //update nextlaser position
+        nextLaser.transform.position = splitPoint;
+        //calculate the direction based on newAngle
+        nextLaser.GetComponentInChildren<Beam>().direction = direction;
+
+        Debug.Log("SplitOtherBeam");
+        //split the other laser
+        hitBeam.SplitAt(newColorVec, splitPoint);
+    }
+
+    private void DrawLaser(Vector3 endObjPos, Vector3 rayCastPos)
     {
         //x size and y size of the line
-        float x = endObj.point.x - rayCastPos.x;
-        float y = endObj.point.y - rayCastPos.y;
+        float x = endObjPos.x - rayCastPos.x;
+        float y = endObjPos.y - rayCastPos.y;
 
         //calculate the length of the line
         transform.localScale = new Vector3(Mathf.Abs(Vector3.Magnitude(new Vector3(x, y, 0))), transform.localScale.y, transform.localScale.z);
@@ -164,7 +236,8 @@ public class Beam : MonoBehaviour {
             nextLaser.GetComponentInChildren<Beam>().prevBeam = this;
 
             nextLaserScript = nextLaser.GetComponent<Laser>();
-            nextLaserScript.color = transform.parent.gameObject.GetComponent<Laser>().color;
+            nextLaser.GetComponentInChildren<Beam>().colorVec = colorVec;
+            nextLaserScript.SetColorEnum();
             nextLaser.GetComponentInChildren<Beam>().fakeLaser = fakeLaser;
 
             nextLaserScript.OnAwake();
@@ -204,7 +277,62 @@ public class Beam : MonoBehaviour {
         //calculate the direction based on newAngle
         nextLaser.GetComponentInChildren<Beam>().direction = new Vector3(Mathf.Cos(Mathf.Deg2Rad * newAngle), Mathf.Sin(Mathf.Deg2Rad * newAngle), 0);
     }
+    
+    public void SplitAt(Vector3 newColorVec, Vector3 splitPoint)
+    {
+        //find where to split it at (split pos)
+        //finds the point at the far back of the laser
+        Vector3 toRayCastPoint = new Vector3(-direction.x * .5f * transform.localScale.x, -direction.y * .5f * transform.localScale.x, 0);
+        DrawLaser(splitPoint, transform.position + toRayCastPoint);
 
+        //make a new beam
+        if (nextLaser == null)
+        {
+            nextLaser = Instantiate(fakeLaser);
+
+            //set some values
+            nextLaser.GetComponentInChildren<Beam>().prevBeam = this;
+
+            nextLaserScript = nextLaser.GetComponent<Laser>();
+
+            nextLaser.GetComponentInChildren<Beam>().fakeLaser = fakeLaser;
+
+            nextLaserScript.OnAwake();
+        }
+
+        //set up all that is needed including color mixing
+        Beam newLaserBeam = newLaser.GetComponentInChildren<Beam>();
+        newLaserBeam.direction = direction;
+
+
+
+        //set up the nextlaser
+        newLaserBeam.nextLaser = nextLaser;
+        newLaserBeam.nextLaserScript = nextLaserScript;
+        newLaserBeam.prevBeam = this;
+        if(nextLaser != null)
+        {
+            nextLaser.GetComponentInChildren<Beam>().prevBeam = newLaserBeam;
+        }
+        nextLaser = newLaser;
+        nextLaserScript = newLaser.GetComponent<Laser>();
+
+        //the color the fun
+        newLaserBeam.colorVec = newColorVec;
+        nextLaserScript.SetColorEnum();
+
+        //make all next lasers that color
+        GameObject iterate = nextLaser;
+        while(nextLaser.GetComponentInChildren<Beam>().nextLaser != null)
+        {
+            iterate = nextLaser.GetComponentInChildren<Beam>().nextLaser;
+            iterate.GetComponentInChildren<Beam>().colorVec = newColorVec;
+            iterate.GetComponent<Laser>().SetColorEnum();
+        }
+
+        newLaserBeam.DrawLaser(splitPoint, transform.position - toRayCastPoint);
+
+    }
     private void DestroyNextLasers()
     {
         //do nothing if there is no next laser
