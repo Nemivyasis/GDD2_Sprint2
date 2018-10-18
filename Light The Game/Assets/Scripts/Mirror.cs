@@ -19,6 +19,8 @@ public class Mirror : MonoBehaviour {
 
     bool upToDate = false;
 
+    public bool isLocked = false;
+
 	// Use this for initialization
 	void Start () {
         pos = new Vector3(0.0f, 0.0f, 0.0f);
@@ -29,39 +31,46 @@ public class Mirror : MonoBehaviour {
     //when mouse hovers over mirror, that mirror can rotate
     private void OnMouseOver()
     {
-        Rotate();
+        if (!isLocked)
+            Rotate();
     }
 
     //for placing the mirror
     void OnMouseDrag()
     {
-        //get the mouse pos
-        Vector3 mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
+        if (!isLocked)
+        {
+            //get the mouse pos
+            Vector3 mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
 
-        //translate the mouse pos to the world
-        pos = Camera.main.ScreenToWorldPoint(mousePos);
+            //translate the mouse pos to the world
+            pos = Camera.main.ScreenToWorldPoint(mousePos);
 
-        //set the pos' z back so it can be seen by the camera
-        pos = new Vector3(pos.x, pos.y, 0);
+            //set the pos' z back so it can be seen by the camera
+            pos = new Vector3(pos.x, pos.y, 0);
 
-        //move the mirror
-        this.transform.position = pos;
+            //move the mirror
+            this.transform.position = pos;
+        }
     }
 
     //for rotating the mirror
     //locked to 90 degrees
     public void Rotate()
     {
-        //rotate right
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (!isLocked)
         {
-            transform.Rotate(new Vector3(0, 0, 1) * speed * Time.deltaTime, Space.World);
-            upToDate = false;
-        }
-        else if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            transform.Rotate(new Vector3(0, 0, -1) * speed * Time.deltaTime, Space.World);
-            upToDate = false;
+            //rotate right
+            if (Input.GetKey(KeyCode.RightArrow))
+            {
+                transform.Rotate(new Vector3(0, 0, 1) * speed * Time.deltaTime, Space.World);
+                upToDate = false;
+            }
+            else if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                transform.Rotate(new Vector3(0, 0, -1) * speed * Time.deltaTime, Space.World);
+                upToDate = false;
+            }
         }
     }
 
