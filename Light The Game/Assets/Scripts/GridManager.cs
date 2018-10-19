@@ -3,12 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GridManager : MonoBehaviour {
     GameObject[] prisms;
     bool victory = false;
     public Text victoryText;
     Laser[] lasers;
+
+    public Image black;
+    public Animator anime;
+
+    IEnumerator Fading()
+    {
+        anime.SetBool("fade", true);
+        yield return new WaitUntil(() => black.color.a == 1);
+        SceneManager.LoadScene("MainMenu");
+    }
 
 	// Use this for initialization
 	void Start () {
@@ -23,9 +34,9 @@ public class GridManager : MonoBehaviour {
 
         prisms = GameObject.FindGameObjectsWithTag("Prism");
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update() {
         foreach (var item in prisms)
         {
             item.GetComponent<Prism>().activated = false;
@@ -46,15 +57,18 @@ public class GridManager : MonoBehaviour {
                 {
                     willWin = false;
                     break;
-				}
+                }
             }
+
 
             if (willWin)
             {
-                victory = true;
-                victoryText.gameObject.SetActive(true);
+                //victory = true;
+                //victoryText.gameObject.SetActive(true);
+                StartCoroutine("Fading");
             }
         }
+
 
         //reset
         if (Input.GetKeyDown(KeyCode.R))
