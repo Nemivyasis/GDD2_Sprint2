@@ -14,10 +14,23 @@ public class Prism : MonoBehaviour {
     Laser contactingLaserScript;
     bool laserContact;
 
+    //vince stuff pls help
+    public Vector3 topMirror;
+    public Vector3 botMirror;
+
     // Use this for initialization
     void Start () {
-		
-	}
+        Vector4 startTop = new Vector4(-transform.localScale.x / 2, transform.localScale.y / 2, 0, 0);
+        Vector4 startBot = new Vector4(-transform.localScale.x / 2, -transform.localScale.y / 2, 0, 0);
+        float angle = Mathf.Deg2Rad * transform.eulerAngles.z;
+
+        Matrix4x4 rotMat = new Matrix4x4(new Vector4(Mathf.Cos(angle), Mathf.Sin(angle), 0, 0),
+            new Vector4(-Mathf.Sin(angle), Mathf.Cos(angle), 0, 0), new Vector4(0, 0, 1, 0),
+            new Vector4(0, 0, 0, 0));
+
+        topMirror = rotMat * startTop;
+        botMirror = rotMat * startBot;
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -73,5 +86,13 @@ public class Prism : MonoBehaviour {
                 activated = contactingLaserScript.color.ToString() == color.ToString();
             }
         }
+    }
+    public Vector3 GetGlobalTopCoord()
+    {
+        return topMirror + transform.position;
+    }
+    public Vector3 GetGlobalBotCoord()
+    {
+        return botMirror + transform.position;
     }
 }

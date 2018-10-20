@@ -70,11 +70,26 @@ public class Beam : MonoBehaviour {
             }
             else if (endObj.transform.gameObject.tag.Equals("Prism"))
             {
-                if(endObj.transform.gameObject.GetComponent<Prism>().color.ToString() == gameObject.GetComponentInParent<Laser>().color.ToString())
+                DrawLaser(endObj, transform.position + toRayCastPoint);
+                if (endObj.transform.gameObject.GetComponent<Prism>().color.ToString() == gameObject.GetComponentInParent<Laser>().color.ToString())
                 {
+                    Vector3 topMirror = endObj.transform.gameObject.GetComponent<Prism>().GetGlobalTopCoord();
+                    Vector3 botMirror = endObj.transform.gameObject.GetComponent<Prism>().GetGlobalBotCoord();
+                    //if it misses the glass part, destroy any following lasers (if they exist) and leave
+                    if ((endObj.point.x > topMirror.x && endObj.point.x > botMirror.x) || (endObj.point.x < topMirror.x && endObj.point.x < botMirror.x))
+                    {
+                        DestroyNextLasers();
+                        return;
+                    }
+                    if ((endObj.point.y > topMirror.y && endObj.point.y > botMirror.y) || (endObj.point.y < topMirror.y && endObj.point.y < botMirror.y))
+                    {
+                        DestroyNextLasers();
+                        return;
+                    }
+                    Debug.Log(color.ToString());
                     endObj.transform.gameObject.GetComponent<Prism>().activated = true;
                 }
-                DrawLaser(endObj, transform.position + toRayCastPoint);
+
             }
             else if (endObj.transform.gameObject.tag.Equals("Mirror"))
             {
