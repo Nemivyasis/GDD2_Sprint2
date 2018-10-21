@@ -8,8 +8,6 @@ public class LevelManager : MonoBehaviour {
     //for calling scenes from buttons
     public void LoadLevel(int sceneIndex)
     {
-        print("Button clicked");
-
         SceneManager.LoadScene(sceneIndex);
     }
 }

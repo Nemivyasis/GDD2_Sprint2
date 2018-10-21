@@ -11,6 +11,8 @@ public class GridManager : MonoBehaviour {
     public Text victoryText;
     Laser[] lasers;
 
+    public LevelTracker level;
+
     public Image black;
     public Animator anime;
 
@@ -18,7 +20,7 @@ public class GridManager : MonoBehaviour {
     {
         anime.SetBool("fade", true);
         yield return new WaitUntil(() => black.color.a == 1);
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene(level.GetNextLevel());
     }
 
 	// Use this for initialization

@@ -11,6 +11,7 @@ TagManager:
   - MirrorBody
   - FakeLaser
   - LaserBody
+  - Level
   layers:
   - Default
   - TransparentFX
