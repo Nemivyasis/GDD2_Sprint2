@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1122001759421304}
+  m_IsPrefabAsset: 1
+--- !u!1 &1122001759421304
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4159197936593084}
+  - component: {fileID: 114242712830568870}
+  m_Layer: 0
+  m_Name: Jukebox - Music T
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4159197936593084
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1122001759421304}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114242712830568870
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1122001759421304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a00a142058f5a51478e064ae94efaadd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speaker: {fileID: 1192453926382804, guid: cb800a5c8740d144a82503145e6eed6b, type: 2}
+  audioLayers:
+  - {fileID: 8300000, guid: aee324e7d5f8ed24ca76366e254116cf, type: 3}
+  - {fileID: 8300000, guid: 9354e3cd281aa5347b162722d67c5f60, type: 3}
+  - {fileID: 8300000, guid: 230ee03414c36164a9d7b53f507ce2aa, type: 3}
+  - {fileID: 8300000, guid: 37ae2bee48321154aa64a3687077268b, type: 3}
+  - {fileID: 8300000, guid: 3264674428ad11b4d90545455ec81242, type: 3}
+  audioSrcs: []
