@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class LevelTracker : MonoBehaviour {
 
-    public int level = 2;
+    public int level;
+
+    public int Level {
+        get { return level; }
+        set { level = value; }
+    }
 
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
-    }
-
-    public int GetNextLevel()
-    {
-        return level++;
+        level = 2;
     }
 }

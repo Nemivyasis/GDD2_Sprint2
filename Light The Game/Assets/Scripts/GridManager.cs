@@ -20,7 +20,7 @@ public class GridManager : MonoBehaviour {
     {
         anime.SetBool("fade", true);
         yield return new WaitUntil(() => black.color.a == 1);
-        SceneManager.LoadScene(level.GetNextLevel());
+        SceneManager.LoadScene(sceneBuildIndex: ++level.Level);
     }
 
 	// Use this for initialization
@@ -67,7 +67,11 @@ public class GridManager : MonoBehaviour {
             {
                 //victory = true;
                 //victoryText.gameObject.SetActive(true);
-                StartCoroutine("Fading");
+                if (!victory)
+                {
+                    StartCoroutine("Fading");
+                    victory = true;
+                }
             }
         }
 
