@@ -18,6 +18,15 @@ public class Jukebox : MonoBehaviour {
 	private const float EPSILON = 0.05f;
 	private const int ONE_SEC = 60;
 
+	public void AddNewSpeaker() {
+		for (int i = 0; i < audioSrcs.Count; i++) {
+			if (audioSrcs[i].volume == 0) {
+				AddSpeaker(i);
+				return;
+			}
+		}
+	}
+
 	/** Calls a function to select a speaker to lerp to an audible level. 
 	 * Introduce a new channel of audio to the game.
 	 * param[speakerIndex] - int; the index of the speaker we want to lerp.
