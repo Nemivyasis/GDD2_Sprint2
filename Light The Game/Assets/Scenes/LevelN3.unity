@@ -161,6 +161,10 @@ Prefab:
       propertyPath: dir
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1288891123751790, guid: 27c82bc54ad57aa42a36774cc3a181b2, type: 2}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 27c82bc54ad57aa42a36774cc3a181b2, type: 2}
   m_IsPrefabAsset: 0
@@ -637,6 +641,10 @@ Prefab:
     - target: {fileID: 1360916904476442, guid: 27c82bc54ad57aa42a36774cc3a181b2, type: 2}
       propertyPath: m_Name
       value: BlueLaser
+      objectReference: {fileID: 0}
+    - target: {fileID: 1288891123751790, guid: 27c82bc54ad57aa42a36774cc3a181b2, type: 2}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 27c82bc54ad57aa42a36774cc3a181b2, type: 2}
@@ -1198,6 +1206,10 @@ Prefab:
     - target: {fileID: 114540632854275454, guid: 27c82bc54ad57aa42a36774cc3a181b2,
         type: 2}
       propertyPath: color
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1288891123751790, guid: 27c82bc54ad57aa42a36774cc3a181b2, type: 2}
+      propertyPath: m_Layer
       value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
