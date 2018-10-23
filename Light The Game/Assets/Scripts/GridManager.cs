@@ -42,6 +42,8 @@ public class GridManager : MonoBehaviour {
         }
 
         prisms = GameObject.FindGameObjectsWithTag("Prism");
+
+        level = GameObject.FindGameObjectWithTag("LevelManager").GetComponent<LevelTracker>();
 	}
 
     // Update is called once per frame
