@@ -16,9 +16,16 @@ public class GridManager : MonoBehaviour {
     public Image black;
     public Animator anime;
 
+	private bool isFading = false; // Tells us whether or not we're in the process of fading.
+
     IEnumerator Fading()
     {
         anime.SetBool("fade", true);
+		if (!isFading) { // If this is our first time in the fading process...
+			isFading = true;
+			Jukebox.instance.FadeSpeakers(); // Fade out the regular piece of level music...
+			Jukebox.instance.Victory(); // And play the victory music instead.
+		}
         yield return new WaitUntil(() => black.color.a == 1);
         SceneManager.LoadScene(sceneBuildIndex: ++level.Level);
     }

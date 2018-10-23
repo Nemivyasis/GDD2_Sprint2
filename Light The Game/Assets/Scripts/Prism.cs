@@ -18,6 +18,11 @@ public class Prism : MonoBehaviour {
     public Vector3 topMirror;
     public Vector3 botMirror;
 
+	[SerializeField]
+	private bool hasPlayedSFX = false; // Whether or not we've played the 'Prism' sound effect.
+
+	private AudioSource audi;
+
     // Use this for initialization
     void Start () {
         Vector4 startTop = new Vector4(-transform.localScale.x / 2, transform.localScale.y / 2, 0, 0);
@@ -30,7 +35,14 @@ public class Prism : MonoBehaviour {
 
         topMirror = rotMat * startTop;
         botMirror = rotMat * startBot;
-    }
+
+		audi = GetComponent<AudioSource>();
+		// Taken from the Reset code (line 57); I need this to get the prism's sound effect to play.
+		activated = false;
+		hasPlayedSFX = false;
+		laserContact = false;
+		contactingLaserScript = null;
+	}
 	
 	// Update is called once per frame
 	void Update () {
@@ -38,9 +50,13 @@ public class Prism : MonoBehaviour {
         {
             activated = contactingLaserScript.color.ToString() == color.ToString();
         }
-
+		if (hasPlayedSFX == false && activated == true) { // Play the sound effect if we haven't already... and ensure that it only plays once without overlap.
+			hasPlayedSFX = true;
+			audi.Play();
+		}
         if (Input.GetKeyDown(KeyCode.R)){
             activated = false;
+			hasPlayedSFX = false;
             laserContact = false;
             contactingLaserScript = null;
         }

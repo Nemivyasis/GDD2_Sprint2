@@ -59,3 +59,4 @@ MonoBehaviour:
   - {fileID: 8300000, guid: c5c17e197e438714e8f6ae29498d2f62, type: 3}
   - {fileID: 8300000, guid: 2c8f749c781251749888caa622b95078, type: 3}
   audioSrcs: []
+  victoryClip: {fileID: 8300000, guid: 39f42a38a4d55294dbcad7ca12959773, type: 3}
