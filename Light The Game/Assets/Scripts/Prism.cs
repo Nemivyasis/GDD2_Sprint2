@@ -7,6 +7,7 @@ public class Prism : MonoBehaviour {
     public bool activated;
     public enum Direction { Up, Down, Left, Right, None };
     public enum PrismColor { Red, Blue, Yellow, Purple, Green, Orange, White };
+	public int[] speakerIndices; // Indices (from 1 - number of Jukebox tracks, minus one) of speakers that this prism shall activate.
 
     public PrismColor color;
     public Direction openFace;
@@ -18,7 +19,6 @@ public class Prism : MonoBehaviour {
     public Vector3 topMirror;
     public Vector3 botMirror;
 
-	[SerializeField]
 	private bool hasPlayedSFX = false; // Whether or not we've played the 'Prism' sound effect.
 
 	private AudioSource audi;
@@ -53,6 +53,10 @@ public class Prism : MonoBehaviour {
 		if (hasPlayedSFX == false && activated == true) { // Play the sound effect if we haven't already... and ensure that it only plays once without overlap.
 			hasPlayedSFX = true;
 			audi.Play();
+			// Also, activate each Vertical Remixing layer that this prism is associated with.
+			for (int i = 0; i < speakerIndices.Length; i++) {
+				Jukebox.instance.AddSpeaker(speakerIndices[i]);
+			}
 		}
         if (Input.GetKeyDown(KeyCode.R)){
             activated = false;

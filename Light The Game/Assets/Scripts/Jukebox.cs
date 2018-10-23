@@ -30,15 +30,6 @@ public class Jukebox : MonoBehaviour {
 		}
 	}
 
-	public void AddNewSpeaker() {
-		for (int i = 0; i < audioSrcs.Count; i++) {
-			if (audioSrcs[i].volume == 0) {
-				AddSpeaker(i);
-				return;
-			}
-		}
-	}
-
 	/** Forces one of our speakers to play the victory music.
 	 * Overrides settings of the speaker at index 0 in audioSrcs 
 	 * to play a desired clip.
@@ -63,23 +54,6 @@ public class Jukebox : MonoBehaviour {
 	 */
 	public void SubSpeaker(int speakerIndex) {
 		StartCoroutine(VRFade(speakerIndex));
-	}
-
-	// DEBUG USED FOR TESTING THE VERTICAL REMIX SYSTEM
-	private void Update() {
-		if (Input.GetKeyDown(KeyCode.Alpha1)) {
-			Debug.Log("Adding Speaker [1]");
-			AddSpeaker(1);
-		} else if (Input.GetKeyDown(KeyCode.Alpha2)) {
-			Debug.Log("Adding Speaker [2]");
-			AddSpeaker(2);
-		} else if (Input.GetKeyDown(KeyCode.Alpha3)) {
-			Debug.Log("Adding Speaker [3]");
-			AddSpeaker(3);
-		} else if (Input.GetKeyDown(KeyCode.Alpha4)) {
-			Debug.Log("Adding Speaker [4]");
-			AddSpeaker(4);
-		}
 	}
 
 	/** Upon awake, make sure that for every audio layer in our music piece, we have

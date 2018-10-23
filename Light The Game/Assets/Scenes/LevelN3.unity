@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -703,6 +703,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114647679942652244, guid: e07676e4922ee7c4684f66187c31326d,
+        type: 2}
+      propertyPath: speakerIndices.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4651901894020708, guid: e07676e4922ee7c4684f66187c31326d, type: 2}
       propertyPath: m_LocalPosition.x
       value: -0.53
@@ -748,6 +753,11 @@ Prefab:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 656c927715ca722428caec49c19ac3c7, type: 2}
+    - target: {fileID: 114647679942652244, guid: e07676e4922ee7c4684f66187c31326d,
+        type: 2}
+      propertyPath: speakerIndices.Array.data[0]
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e07676e4922ee7c4684f66187c31326d, type: 2}
   m_IsPrefabAsset: 0
@@ -953,6 +963,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114647679942652244, guid: e07676e4922ee7c4684f66187c31326d,
+        type: 2}
+      propertyPath: speakerIndices.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4651901894020708, guid: e07676e4922ee7c4684f66187c31326d, type: 2}
       propertyPath: m_LocalPosition.x
       value: 2.38
@@ -999,6 +1014,16 @@ Prefab:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 105fc0829ece7f84b8ac74c159bf0503, type: 2}
+    - target: {fileID: 114647679942652244, guid: e07676e4922ee7c4684f66187c31326d,
+        type: 2}
+      propertyPath: speakerIndices.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114647679942652244, guid: e07676e4922ee7c4684f66187c31326d,
+        type: 2}
+      propertyPath: speakerIndices.Array.data[1]
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e07676e4922ee7c4684f66187c31326d, type: 2}
   m_IsPrefabAsset: 0
@@ -1064,6 +1089,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114647679942652244, guid: e07676e4922ee7c4684f66187c31326d,
+        type: 2}
+      propertyPath: speakerIndices.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4651901894020708, guid: e07676e4922ee7c4684f66187c31326d, type: 2}
       propertyPath: m_LocalPosition.x
       value: -2.05
@@ -1113,6 +1143,11 @@ Prefab:
     - target: {fileID: 1155799201465758, guid: e07676e4922ee7c4684f66187c31326d, type: 2}
       propertyPath: m_Name
       value: Prism (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114647679942652244, guid: e07676e4922ee7c4684f66187c31326d,
+        type: 2}
+      propertyPath: speakerIndices.Array.data[0]
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e07676e4922ee7c4684f66187c31326d, type: 2}

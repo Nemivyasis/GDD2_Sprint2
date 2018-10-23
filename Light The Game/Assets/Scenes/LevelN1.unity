@@ -577,6 +577,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114647679942652244, guid: e07676e4922ee7c4684f66187c31326d,
+        type: 2}
+      propertyPath: speakerIndices.Array.size
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 4651901894020708, guid: e07676e4922ee7c4684f66187c31326d, type: 2}
       propertyPath: m_LocalPosition.x
       value: 5.64
@@ -626,6 +631,26 @@ Prefab:
     - target: {fileID: 4651901894020708, guid: e07676e4922ee7c4684f66187c31326d, type: 2}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 114647679942652244, guid: e07676e4922ee7c4684f66187c31326d,
+        type: 2}
+      propertyPath: speakerIndices.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114647679942652244, guid: e07676e4922ee7c4684f66187c31326d,
+        type: 2}
+      propertyPath: speakerIndices.Array.data[1]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114647679942652244, guid: e07676e4922ee7c4684f66187c31326d,
+        type: 2}
+      propertyPath: speakerIndices.Array.data[2]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114647679942652244, guid: e07676e4922ee7c4684f66187c31326d,
+        type: 2}
+      propertyPath: speakerIndices.Array.data[3]
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e07676e4922ee7c4684f66187c31326d, type: 2}
@@ -1262,6 +1287,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   victoryText: {fileID: 1486933483}
+  level: {fileID: 0}
   black: {fileID: 2097309865}
   anime: {fileID: 2097309864}
 --- !u!4 &1661285611
