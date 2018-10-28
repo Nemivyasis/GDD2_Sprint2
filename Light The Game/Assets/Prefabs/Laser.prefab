@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 23236188684473082}
   - component: {fileID: 65088950889616734}
   - component: {fileID: 54655396329090532}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Beam
   m_TagString: Beam
   m_Icon: {fileID: 0}
@@ -50,17 +50,65 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1653842605218798
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4820804437159256}
+  - component: {fileID: 33899040868915392}
+  - component: {fileID: 23134025135570946}
+  m_Layer: 0
+  m_Name: Laser_Shooter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1724309833972928
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4288284695837100}
+  - component: {fileID: 114521364814866012}
+  m_Layer: 0
+  m_Name: Jukebox - Music A
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4288284695837100
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1724309833972928}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 5.39, y: 1.08, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4613173666776088}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4613173666776088
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1360916904476442}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.62, y: -1.27, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -5.39, y: 2.338, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4803002191083970}
+  - {fileID: 4288284695837100}
+  - {fileID: 4820804437159256}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -77,6 +125,55 @@ Transform:
   m_Father: {fileID: 4613173666776088}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4820804437159256
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1653842605218798}
+  m_LocalRotation: {x: -0.49807945, y: 0.50191325, z: 0.49807945, w: 0.50191325}
+  m_LocalPosition: {x: -0.005, y: -0.107, z: -0.14}
+  m_LocalScale: {x: 150, y: 150, z: 150}
+  m_Children: []
+  m_Father: {fileID: 4613173666776088}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: -89.561005, y: 90.00001, z: 0}
+--- !u!23 &23134025135570946
+MeshRenderer:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1653842605218798}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
+  m_Materials:
+  - {fileID: 2100000, guid: 38eda88b371d8204b932b5262039aaca, type: 3}
+  - {fileID: 2100002, guid: 37cde93de0b80c8429a47fe3e14fabe0, type: 3}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
 --- !u!23 &23236188684473082
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -118,7 +215,7 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1360916904476442}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -154,6 +251,13 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1288891123751790}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!33 &33899040868915392
+MeshFilter:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1653842605218798}
+  m_Mesh: {fileID: 4300000, guid: 38eda88b371d8204b932b5262039aaca, type: 3}
 --- !u!33 &33949613111517370
 MeshFilter:
   m_ObjectHideFlags: 1
@@ -211,12 +315,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6178c2938ae6cd94ab8858dbe35c4dfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasMadeContact: 0
   ignoreObjects:
   - {fileID: 1360916904476442}
   fakeLaser: {fileID: 1808280689357008, guid: 6af95e63e1188f2409ffd91517bf45a9, type: 2}
-  mirrorStopTime: 0.05
   direction: {x: 0, y: 0, z: 0}
+  nextLaser: {fileID: 0}
+  nextLaserScript: {fileID: 0}
+--- !u!114 &114521364814866012
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1724309833972928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a00a142058f5a51478e064ae94efaadd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speaker: {fileID: 1192453926382804, guid: cb800a5c8740d144a82503145e6eed6b, type: 2}
+  audioLayers:
+  - {fileID: 8300000, guid: 940ad190bef01d142b52063436bc3f50, type: 3}
+  - {fileID: 8300000, guid: 94d948a6b7ed367488585e0ccf8d71ae, type: 3}
+  - {fileID: 8300000, guid: 6a28abd10eea5f44f87acc160d9694da, type: 3}
+  - {fileID: 8300000, guid: f4041b21f00291644bfd58ca8ae1fb05, type: 3}
+  - {fileID: 8300000, guid: d43f006ffe7c0b840aea4601a9a38c9d, type: 3}
+  audioSrcs: []
+  victoryClip: {fileID: 8300000, guid: 39f42a38a4d55294dbcad7ca12959773, type: 3}
 --- !u!114 &114540632854275454
 MonoBehaviour:
   m_ObjectHideFlags: 1
