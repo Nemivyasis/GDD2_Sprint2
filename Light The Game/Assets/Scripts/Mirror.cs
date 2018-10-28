@@ -12,7 +12,7 @@ public class Mirror : MonoBehaviour {
     //speed of rotation
     float speed;
 
-
+    public Collider frontCollider;
     //vince stuff pls help
     public Vector3 topMirror;
     public Vector3 botMirror;
@@ -100,12 +100,7 @@ public class Mirror : MonoBehaviour {
     //calculates properties of the mirror edge (is important)
     public void CalculateProperties()
     {
-        if (!upToDate)
-        {
-            CalcMirrorTopAndBotPoints();
-
-            upToDate = true;
-        }
+        CalcMirrorTopAndBotPoints();
     }
 
     private void CalcMirrorTopAndBotPoints()

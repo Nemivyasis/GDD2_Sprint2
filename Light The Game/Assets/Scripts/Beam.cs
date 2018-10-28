@@ -54,11 +54,12 @@ public class Beam : MonoBehaviour {
         Vector3 toRayCastPoint = new Vector3(-direction.x * .5f * transform.localScale.x, -direction.y * .5f * transform.localScale.x, 0);
 
         //raycast
-        bool hitObj = Physics.Raycast(transform.position + toRayCastPoint + direction * .01f, direction, out endObj);
+        bool hitObj = Physics.Raycast(new Ray(transform.position + toRayCastPoint + direction * .01f, direction), out endObj, float.MaxValue, 9);
 
         //what will it hit
         if (hitObj)
         {
+            Debug.Log(endObj.transform.tag);
             //if it is not hitting a mirror, make sure it does not have any lasers coming from it
             if(!endObj.transform.gameObject.tag.Equals("Mirror")){
                 DestroyNextLasers();
@@ -97,6 +98,10 @@ public class Beam : MonoBehaviour {
                 Reflect(endObj);
             }
             else if (endObj.transform.gameObject.tag.Equals("LaserBody"))
+            {
+                DrawLaser(endObj, transform.position + toRayCastPoint);
+            }
+            else if (endObj.transform.gameObject.tag.Equals("MirrorBody"))
             {
                 DrawLaser(endObj, transform.position + toRayCastPoint);
             }
@@ -157,6 +162,7 @@ public class Beam : MonoBehaviour {
         Vector3 topMirror = mirror.GetGlobalTopCoord();
         Vector3 botMirror = mirror.GetGlobalBotCoord();
 
+        //Debug.Log(topMirror + " " + botMirror + " " + endObj.point);
         //if it misses the glass part, destroy any following lasers (if they exist) and leave
         if((endObj.point.x > topMirror.x && endObj.point.x > botMirror.x) || (endObj.point.x < topMirror.x && endObj.point.x < botMirror.x))
         {
