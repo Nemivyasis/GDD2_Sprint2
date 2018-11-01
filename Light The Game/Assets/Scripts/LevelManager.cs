@@ -10,6 +10,7 @@ public class LevelManager : MonoBehaviour {
 	// Get an instance of the audio source.
 	private void Awake() {
 		audi = GetComponent<AudioSource>();
+		Screen.SetResolution(1600, 700, false, 60); // Set resolution to 1600x700.
 	}
 
     //for calling scenes from buttons
