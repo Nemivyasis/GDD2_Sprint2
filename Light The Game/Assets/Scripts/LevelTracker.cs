@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class LevelTracker : MonoBehaviour {
 
-    public int level;
+    public int maxLevel;
 
+    public int level;
+    
     public int Level {
         get { return level; }
         set { level = value; }
@@ -15,5 +17,7 @@ public class LevelTracker : MonoBehaviour {
     {
         DontDestroyOnLoad(this.gameObject);
         level = 2;
+
+        maxLevel = 10;
     }
 }

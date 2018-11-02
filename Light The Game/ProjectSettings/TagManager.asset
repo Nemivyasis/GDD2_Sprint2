@@ -13,6 +13,8 @@ TagManager:
   - LaserBody
   - Level
   - LevelManager
+  - VictoryText
+  - Canvas
   layers:
   - Default
   - TransparentFX

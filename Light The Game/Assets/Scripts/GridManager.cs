@@ -78,7 +78,15 @@ public class GridManager : MonoBehaviour {
                 //victoryText.gameObject.SetActive(true);
                 if (!victory)
                 {
-                    StartCoroutine("Fading");
+                    if(level.level < level.maxLevel)
+                    {
+                        StartCoroutine("Fading");
+                    }
+                    else
+                    {
+                        Debug.Log("Ultimate Victory");
+                        victoryText.gameObject.SetActive(true);
+                    }
                     victory = true;
                 }
             }
